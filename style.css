@@ -27,6 +27,10 @@ html[data-theme="theme-1"] {
   /* Headers / Text */
   --text-header: hsl(0, 100%, 100%);
   --text-screen: hsl(0, 100%, 100%);
+
+  /* Shadows */
+  --shadow-screen: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --shadow-keypad: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
 }
 
 /* Theme 2 variables (Light Gray) */
@@ -53,6 +57,10 @@ html[data-theme="theme-2"] {
   /* Headers / Text */
   --text-header: hsl(60, 10%, 19%);
   --text-screen: hsl(60, 10%, 19%);
+
+  /* Shadows */
+  --shadow-screen: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-keypad: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
 }
 
 /* Theme 3 variables (Vibrant Purple / Dark) */
@@ -79,6 +87,10 @@ html[data-theme="theme-3"] {
   /* Headers / Text */
   --text-header: hsl(52, 100%, 62%);
   --text-screen: hsl(52, 100%, 62%);
+
+  /* Shadows */
+  --shadow-screen: none;
+  --shadow-keypad: none;
 }
 
 /* ==========================================================================
@@ -100,7 +112,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: var(--bg-main);
-  padding: 20px;
+  padding: clamp(1rem, 5vh, 2.5rem);
   overflow-y: auto;
 }
 
@@ -109,7 +121,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 1rem;
   width: 100%;
   max-width: 540px;
 }
@@ -118,7 +130,7 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 1rem;
 }
 
 /* ==========================================================================
@@ -146,7 +158,7 @@ body {
 .theme-switch__title {
   font-size: 0.75rem;
   letter-spacing: 1.5px;
-  margin-bottom: 6px;
+  margin-block-end: 6px;
   font-weight: 700;
   user-select: none;
 }
@@ -217,22 +229,22 @@ body {
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease;
 }
 
-/* Shift the toggle knob based on selected radio */
-#theme-1:checked~.theme-switch__knob {
-  transform: translateX(0px);
-}
-
-#theme-2:checked~.theme-switch__knob {
-  transform: translateX(23px);
-}
-
-#theme-3:checked~.theme-switch__knob {
-  transform: translateX(46px);
-}
-
 /* Hover effects for toggle knob */
 .theme-switch__track:hover .theme-switch__knob {
   filter: brightness(1.25);
+}
+
+/* Shift the toggle knob based on selected radio */
+[value="1"]:checked~.theme-switch__knob {
+  transform: translateX(0px);
+}
+
+[value="2"]:checked~.theme-switch__knob {
+  transform: translateX(23px);
+}
+
+[value="3"]:checked~.theme-switch__knob {
+  transform: translateX(46px);
 }
 
 /* ==========================================================================
@@ -241,20 +253,20 @@ body {
 .calculator__screen {
   background-color: var(--bg-screen);
   border-radius: 10px;
-  padding: 28px 24px;
+  padding: 1.375rem 1.125rem;
   text-align: right;
-  min-height: 88px;
+  min-height: 4.5rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   word-wrap: break-word;
   word-break: break-all;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-screen);
 }
 
 .calculator__screen output {
-  font-size: 2.8rem;
+  font-size: 2.1rem;
   font-weight: 700;
   color: var(--text-screen);
   width: 100%;
@@ -269,18 +281,18 @@ body {
 .calculator__buttons {
   background-color: var(--bg-toggle-keypad);
   border-radius: 10px;
-  padding: 24px;
+  padding: 1.125rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  gap: 0.75rem;
+  box-shadow: var(--shadow-keypad);
 }
 
 .calculator__button {
   border: none;
   border-radius: 8px;
-  height: 60px;
-  font-size: 1.8rem;
+  height: 52px;
+  font-size: 1.5rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -338,7 +350,7 @@ html[data-theme="theme-3"] .calculator__button--operator:hover {
 /* Active pressed state style */
 .calculator__button:active {
   transform: translateY(3px);
-  box-shadow: 0 1px 0 transparent !important;
+  box-shadow: 0 1px 0 transparent;
 }
 
 .calculator__button--number:active,
@@ -356,10 +368,7 @@ html[data-theme="theme-3"] .calculator__button--operator:hover {
 }
 
 /* Span elements */
-.calculator__button--reset {
-  grid-column: span 2;
-}
-
+.calculator__button--reset,
 .calculator__button--equals {
   grid-column: span 2;
 }
@@ -388,42 +397,81 @@ html[data-theme="theme-3"] .calculator__button--operator:hover {
 }
 
 /* ==========================================================================
-   Responsive adjustments
+   Responsive adjustments (Desktop scaling via Mobile-First)
    ========================================================================== */
-@media (max-width: 480px) {
-  body {
-    padding: 16px;
-  }
-
+@media (min-width: 30em) {
   .calculator-container {
-    gap: 16px;
+    gap: 1.25rem;
   }
 
   .calculator {
-    gap: 16px;
+    gap: 1.5rem;
   }
 
   .calculator__screen {
-    padding: 22px 18px;
-    min-height: 72px;
+    padding: 28px 24px;
+    min-height: 88px;
   }
 
   .calculator__screen output {
-    font-size: 2.1rem;
+    font-size: 2.8rem;
   }
 
   .calculator__buttons {
-    padding: 18px;
-    gap: 12px;
+    padding: 24px;
+    gap: 16px;
   }
 
   .calculator__button {
-    height: 52px;
-    font-size: 1.5rem;
+    height: 60px;
+    font-size: 1.8rem;
   }
 
   .calculator__button--delete,
   .calculator__button--reset {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* ==========================================================================
+   Reduced Motion Accessibility Settings
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+
+  .theme-switch__knob {
+    transition: none !important;
+  }
+
+  .calculator__button {
+    transition: none !important;
+  }
+
+  /* Disable physical button press animations to prevent motion sickness */
+  .calculator__button:active {
+    transform: none !important;
+  }
+
+  /* Retain static shadows on click when motion is reduced to prevent flickering */
+  .calculator__button--number:active,
+  .calculator__button--operator:active {
+    box-shadow: 0 4px 0 var(--key-shadow-secondary) !important;
+  }
+
+  .calculator__button--delete:active,
+  .calculator__button--reset:active {
+    box-shadow: 0 4px 0 var(--key-shadow-primary) !important;
+  }
+
+  .calculator__button--equals:active {
+    box-shadow: 0 4px 0 var(--key-shadow-equals) !important;
   }
 }
